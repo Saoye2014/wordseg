@@ -43,7 +43,7 @@ def gen_adj():
     global radj
     global wordhyp
 
-    wordhyp_set = set(wordhyp.keys())  # 转化为set对判断元素属于关系效率更高
+    wordhyp_set = set(wordhyp)  # 转化为set对判断元素属于关系效率更高
     if raw_text_substring:
         for i in range(len(raw_text_substring)):
             word = raw_text_substring[i]
@@ -73,30 +73,36 @@ def dump():
 #    print "done"
     global wordhyp_ebv
     pprint.pprint(wordhyp_ebv, open("ebv.txt","wb"))
+    
 
 if __name__== "__main__":
     time1=time.time()
     global wordhyp 
     wordhyp = load_module("word_hypothese.txt") #载入词假设
     wordhyp_freq = load_module("word_freq.txt")
-
+    raw_txt = open("train_txt/pku_training.txt",'rb').read()
+    size = len(raw_txt)
+    
     print "generate substring ...\t",
-    #gen_all_substring(fname)
+    for fname in glob.glob("train_txt/*.txt"):
+        gen_all_substring(fname)
     print "done"
 
     print "generate adj table",
-   # gen_adj()
+    gen_adj()
     print "done"
 
     print "call ebv...\t",
-    import gen_wordrank_model
+    from gen_wordrank_model import cal_BV
+    print "writint adj",
+    pprint.pprint(ladj,open("ladj",'wb'))
+    pprint.pprint(radj,open("radj",'wb'))
+    print " done"
    # wordhyp_ebv = gen_wordrank_model.cal_EBV(wordhyp, ladj, radj, EBV_ITERR_TIMES)
-    wordhyp_ibv = gen_wordrank_model.cal_IBV(wordhyp,wordhyp_freq)
+   # wordhyp_ibv = gen_wordrank_model.cal_IBV(wordhyp,wordhyp_freq,size)
+    cal_BV(wordhyp,ladj,radj,EBV_ITERR_TIMES,wordhyp_freq,size)
     print "done"
 
-    print "dumping  "
-    pprint.pprint(wordhyp_ibv, open("ibv.txt","wb"))
-#    dump()
     time2=time.time()
     print time2-time1
 

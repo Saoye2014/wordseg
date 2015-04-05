@@ -88,12 +88,14 @@ def cal_BV(wordhyp, ladj, radj, iter_times,prop_character,size):
     
     wordhyp_wrv = {}#WordRank Value
     for word in wordhyp:
+        print word,
         print "ebv",
         print wordhyps_ebv[word]
         print "ibv",
         print wordhyps_ibv[word]
         wordhyp_wrv[word] = wordhyps_ebv[word] * math.pow(wordhyps_ibv[word],4.4) 
     print "dump ebv,ibv,wr_model   ..."
+
     pprint.pprint(wordhyps_ebv,open("ebv.txt","wb"))
     pprint.pprint(wordhyps_ibv,open("ibv.txt","wb"))
     pprint.pprint(wordhyps_wrmodel,open("wr_model.txt","wb"))
