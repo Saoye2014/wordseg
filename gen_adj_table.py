@@ -32,10 +32,12 @@ def gen_all_substring(fname):
             line = line.decode('gbk','ignore')
         line = line.strip().replace(" ","")
         if line != '':
-            for i in range(len(line)):
-                for j in range(1,12):
-                    if j+1 < len(line)+1:
+            for i in range(len(line)-1):
+                for j in range(2,10):
+                    if j+i < len(line):
                         raw_text_substring.append(line[i:i+j])
+    
+    raw_text_substring = list(set(raw_text_substring))  #去重
 
 def gen_adj():
     global raw_text_substring
@@ -47,7 +49,7 @@ def gen_adj():
     if raw_text_substring:
         for i in range(len(raw_text_substring)):
             word = raw_text_substring[i]
-            for j in range(len(word)):
+            for j in range(len(word)-1):
                 left_seq = word[0:j+1]
                 right_seq = word[j+1:len(word)]
                 if (left_seq in wordhyp_set) and (right_seq in wordhyp_set):
@@ -59,7 +61,12 @@ def gen_adj():
                         radj[left_seq].append(right_seq)
                     else:
                         radj[left_seq]=[right_seq]
-            
+        
+        for node in ladj.keys():
+            ladj[node] = list(set(ladj[node]))
+
+        for node in radj.keys():
+            radj[node] = list(set(radj[node]))
 def dump():
 #    global ladj
 #    global radj
@@ -94,11 +101,12 @@ if __name__== "__main__":
 
     print "call ebv...\t",
     from gen_wordrank_model import cal_BV
-    print "writint adj",
+    print "writing adj",
     pprint.pprint(ladj,open("ladj",'wb'))
     pprint.pprint(radj,open("radj",'wb'))
     print " done"
-   # wordhyp_ebv = gen_wordrank_model.cal_EBV(wordhyp, ladj, radj, EBV_ITERR_TIMES)
+    #wordhyp_ebv = cal_EBV(wordhyp, ladj, radj, EBV_ITERR_TIMES)
+   # pprint.pprint(wordhyp_ebv,open("ebv.txt","wb"))
    # wordhyp_ibv = gen_wordrank_model.cal_IBV(wordhyp,wordhyp_freq,size)
     cal_BV(wordhyp,ladj,radj,EBV_ITERR_TIMES,wordhyp_freq,size)
     print "done"
