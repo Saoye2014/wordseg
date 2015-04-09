@@ -1,0 +1,61 @@
+#-*- coding:utf-8 -*-
+import glob
+import sys
+import os
+
+Lmax = 5
+def load_module(f_name):
+    _curpath = os.path.normpath(os.path.join(os.getcwd(),os.path.dirname(__file__)))
+    in_f = open(os.path.join(_curpath,f_name),'rb')
+    with in_f:
+        return eval(in_f.read())
+
+
+def cut(str):
+    wordrank_value = load_module("wr_model.txt")
+    str=' '+str
+    global Lmax
+    str_len = len(str)
+    op=[-float('inf')]*str_len
+    op[0]=1
+    path= [0]*str_len
+    for i in range(1,str_len):
+        pos_start = max(0,i-Lmax)
+        for k in range(pos_start,i):
+            print "(",
+            print i,',',k,")   "
+            print path
+            print op
+            if wordrank_value.has_key(str[k+1:i+1])==False:
+                wrv = 0
+            else:
+                wrv = wordrank_value[str[k+1:i+1]]
+                
+            if op[k]*wrv > op[i]:
+                op[i]=op[k]*wrv
+                path[i]=k;
+    d=[i for i in path]
+    print d
+    i = str_len-1
+    out=[]
+    while  path[i]!=0:
+        out.append(path[i])
+        i = path[i]
+    if i==0:
+        out.append(path[0])
+    out = out[::-1]
+    cur = 0
+    print out
+    for i in range(1,str_len):
+        print str[i],
+        if cur<len(out) and i==out[cur]:
+            print '\\',
+            cur=cur+1;
+
+if __name__ == "__main__":
+    while True :
+        str=raw_input()
+        if str!='':
+            str = str.decode("utf-8")
+            cut(str)
+            

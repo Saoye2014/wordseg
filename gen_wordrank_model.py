@@ -25,14 +25,14 @@ def cal_EBV(wordhyp, ladj, radj, iter_times):
                 sum_rv = 0
                 for element in ladj[word]:
                     sum_rv = sum_rv+wordhyp_bv[element]["rbv"]
-                wordhyp_bv[word]["lbv"] = sum_rv
+                wordhyp_bv[word]["lbv"] = wordhyp_bv[word]["lbv"]+sum_rv
 
         for word in wordhyp:
             if radj.has_key(word):
                 sum_lv = 0
                 for element in radj[word]:  #word有右邻接的词
                     sum_lv = sum_rv + wordhyp_bv[element]["lbv"]
-                wordhyp_bv[word]["rbv"] = sum_lv
+                wordhyp_bv[word]["rbv"] = wordhyp_bv[word]["rbv"]+sum_lv
         
         sum_lv=sum_rv=0
         for word in wordhyp:
