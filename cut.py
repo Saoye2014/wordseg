@@ -2,7 +2,7 @@
 import glob
 import sys
 import os
-
+wordrank_value={}
 Lmax = 5
 def load_module(f_name):
     _curpath = os.path.normpath(os.path.join(os.getcwd(),os.path.dirname(__file__)))
@@ -12,7 +12,7 @@ def load_module(f_name):
 
 
 def cut(str):
-    wordrank_value = load_module("wr_model.txt")
+    global wordrank_value
     str=' '+str
     global Lmax
     str_len = len(str)
@@ -22,10 +22,10 @@ def cut(str):
     for i in range(1,str_len):
         pos_start = max(0,i-Lmax)
         for k in range(pos_start,i):
-            print "(",
-            print i,',',k,")   "
-            print path
-            print op
+#            print "(",
+#            print i,',',k,")   "
+#            print path
+#            print op
             if wordrank_value.has_key(str[k+1:i+1])==False:
                 wrv = 0
             else:
@@ -53,6 +53,14 @@ def cut(str):
             cur=cur+1;
 
 if __name__ == "__main__":
+    global wordrank_value
+    if sys.argv[1]=='0':
+       	wordrank_value = load_module("ibv.txt")
+    elif sys.argv[1]=='1':
+        wordrank_value = load_module("ebv.txt")
+    elif sys.argv[1]=='2':
+        wordrank_value = load_module("wr_model.txt")
+
     while True :
         str=raw_input()
         if str!='':
