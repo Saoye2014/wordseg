@@ -89,6 +89,6 @@ if __name__ == "__main__":
                             words.append(unit)
         if words!=[]:                    
 	    for i in words:
-                output.write(i.encode('utf8')+'\n')
+                output.write(i.encode('utf8')+' ')
                             
     
