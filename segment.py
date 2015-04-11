@@ -43,7 +43,6 @@ def cut(str):
     if i==0:
         out.append(path[0])
     out = out[::-1]
-    print out
     if out ==[]:
         result.append(str[1:str_len])
     else:
@@ -78,10 +77,8 @@ if __name__ == "__main__":
         except:
             line = line.decode('gbk','ignore')
         line = line.strip().replace(" ","")
-        print line
         blocks = re_not_han.split(line)
         for blk in blocks:
-	    print blk
             if blk !='':
                 units = re_numalp.split(blk)
                 for unit in units:
