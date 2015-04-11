@@ -13,6 +13,7 @@ def load_module(f_name):
 
 def cut(str):
     global wordrank_value
+    result=[]
     str=' '+str
     global Lmax
     str_len = len(str)
@@ -44,13 +45,21 @@ def cut(str):
     if i==0:
         out.append(path[0])
     out = out[::-1]
-    cur = 0
     print out
-    for i in range(1,str_len):
-        print str[i],
-        if cur<len(out) and i==out[cur]:
-            print '\\',
-            cur=cur+1;
+    if out ==[]:
+        result = str[1:str_len]
+    else:
+        pre = 1
+        for pos in out:
+            result.append(str[pre:pos+1])
+            pre = pos+1
+        result.append(str[pre:str_len])
+
+    for s in result:
+        print s
+    
+    return result
+        
 
 if __name__ == "__main__":
     global wordrank_value
