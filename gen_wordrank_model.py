@@ -57,7 +57,7 @@ def cal_IBV(wordhyp, prop_character, size):
 #    print "ss",raw_xy[1],"ss"
     for word in wordhyp:
         if len(word)==1: # 单字的内部边界值暂时令其等于1
-            wordhyps_ibv[word]=1
+            wordhyps_ibv[word]=prop_character[word]/size/size
             continue 
         for i in range(len(word)-1):
             xy = word[i:i+2]
