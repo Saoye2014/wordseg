@@ -56,7 +56,7 @@ def cal_IBV(wordhyp, prop_character, size):
 #    print raw_trainning_text
 #    print "ss",raw_xy[1],"ss"
     for word in wordhyp:
-        if len(word)==1: # 单字的内部边界值暂时令其等于1
+        if len(word)==1: # 单字的内部边界值暂时令其等于其出现的概率
             wordhyps_ibv[word]=prop_character[word]/size/size
             continue 
         for i in range(len(word)-1):
