@@ -63,7 +63,8 @@ if __name__ == "__main__":
     elif sys.argv[1]=='2':
         wordrank_value = load_module("wr_model.txt")
 
-    re_not_han = re.compile(ur"[^\u4E00-\u9FA5a-zA-Z0-9]+")
+    re_not_han = re.compile(ur"([^\u4E00-\u9FA5a-zA-Z0-9]+)")
+    re_han_alp_num = re.compile(ur"[\u4E00-\u9FA5a-zA-Z0-9]+")
     re_han = re.compile(ur"[\u4E00-\u9FA5]")
     re_numalp = re.compile(ur"([a-zA-Z0-9+#]+)")
     cur_time = time.strftime('%m-%d-%H-%M',time.localtime(time.time()))
@@ -80,15 +81,19 @@ if __name__ == "__main__":
         blocks = re_not_han.split(line)
         for blk in blocks:
             if blk !='':
-                units = re_numalp.split(blk)
-                for unit in units:
-                    if unit !='':
-                        if re_han.match(unit):
-                            words = words+cut(unit)
-                        else:
-                            words.append(unit)
+                if re_han_alp_num.match(blk):
+                    units = re_numalp.split(blk)
+                    for unit in units:
+                        if unit !='':
+                            if re_han.match(unit):
+                                words = words+cut(unit)
+                            else:
+                                words.append(unit)
+                else:
+                    words.append(blk)
         if words!=[]:                    
 	    for i in words:
                 output.write(i.encode('utf8')+' ')
+            output.write('\n')
                             
     

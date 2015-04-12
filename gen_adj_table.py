@@ -102,8 +102,8 @@ if __name__== "__main__":
     print "call ebv...\t",
     from gen_wordrank_model import cal_BV
     print "writing adj",
-    pprint.pprint(ladj,open("ladj",'wb'))
-    pprint.pprint(radj,open("radj",'wb'))
+   # pprint.pprint(ladj,open("ladj",'wb'))
+   # pprint.pprint(radj,open("radj",'wb'))
     print " done"
     #wordhyp_ebv = cal_EBV(wordhyp, ladj, radj, EBV_ITERR_TIMES)
    # pprint.pprint(wordhyp_ebv,open("ebv.txt","wb"))

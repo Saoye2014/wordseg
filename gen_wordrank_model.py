@@ -80,15 +80,11 @@ def cal_IBV(wordhyp, prop_character, size):
 def cal_BV(wordhyp, ladj, radj, iter_times,prop_character,size):
     wordhyps_ebv = cal_EBV(wordhyp,ladj,radj,iter_times)
     wordhyps_ibv = cal_IBV(wordhyp,prop_character,size)
-    i = 3
+    i = 15.5
     cur_time = time.strftime('%m-%d-%H-%M',time.localtime(time.time()))
-    while i<7.2:
+    while i<25:
         wordhyps_wrv = {}#WordRank Value
         for word in wordhyp:
-            print "ebv",
-            print wordhyps_ebv[word]
-            print "ibv",
-            print wordhyps_ibv[word]
             wordhyps_wrv[word] = wordhyps_ebv[word] * math.pow(i,wordhyps_ibv[word]) #TUDO
             
         dir = cur_time +'/'+str(i)+'exp'
