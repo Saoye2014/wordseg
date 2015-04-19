@@ -2,7 +2,7 @@
 #import codecs  open('ebv2.txt','wa+',"utf8")可以直接写中文
 import sys
 filename=sys.argv[1]
-print filename+"aa"
+print "decode"+filename
 s=eval(open(filename+'.txt','rb').read())
 s1=sorted(s.iteritems(),key=lambda abs:abs[0],reverse=False)
 f = open(filename+'sotedbykey_.txt','wa+')

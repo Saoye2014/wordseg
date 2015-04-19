@@ -12,7 +12,7 @@ ladj={}
 radj={}
 raw_text_substring=[]
 wordhyp={}
-
+time1=time.time()
 
 def load_module(f_name):
     _curpath = os.path.normpath(os.path.join(os.getcwd(),os.path.dirname(__file__)))
@@ -33,8 +33,8 @@ def gen_all_substring(fname):
         line = line.strip().replace(" ","")
         if line != '':
             for i in range(len(line)-1):
-                for j in range(2,10):
-                    if j+i < len(line):
+                for j in range(2,11):
+                    if j+i <= len(line):
                         raw_text_substring.append(line[i:i+j])
     
     raw_text_substring = list(set(raw_text_substring))  #去重
@@ -67,6 +67,13 @@ def gen_adj():
 
         for node in radj.keys():
             radj[node] = list(set(radj[node]))
+
+def print_time():
+    global time1
+    tmp = time.time()
+    print tmp-time1
+    time1=tmp
+
 def dump():
 #    global ladj
 #    global radj
@@ -83,7 +90,6 @@ def dump():
     
 
 if __name__== "__main__":
-    time1=time.time()
     global wordhyp 
     wordhyp = load_module("word_hypothese.txt") #载入词假设
     wordhyp_freq = load_module("word_freq.txt")
@@ -97,21 +103,19 @@ if __name__== "__main__":
 
     print "generate adj table",
     gen_adj()
-    print "done"
-
+    print "done   cost:",print_time()
+    
     print "call ebv...\t",
     from gen_wordrank_model import cal_BV
-    print "writing adj",
+    #print "writing adj",
    # pprint.pprint(ladj,open("ladj",'wb'))
    # pprint.pprint(radj,open("radj",'wb'))
-    print " done"
+   # print " done"
     #wordhyp_ebv = cal_EBV(wordhyp, ladj, radj, EBV_ITERR_TIMES)
    # pprint.pprint(wordhyp_ebv,open("ebv.txt","wb"))
    # wordhyp_ibv = gen_wordrank_model.cal_IBV(wordhyp,wordhyp_freq,size)
     cal_BV(wordhyp,ladj,radj,EBV_ITERR_TIMES,wordhyp_freq,size)
-    print "done"
-
-    time2=time.time()
-    print time2-time1
+    print "done  cost:",
+    print print_time()
 
 #TODOrewrite this code depart the ebv() ,write trian.txt TODO

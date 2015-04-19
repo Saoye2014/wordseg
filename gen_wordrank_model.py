@@ -31,7 +31,7 @@ def cal_EBV(wordhyp, ladj, radj, iter_times):
             if radj.has_key(word):
                 sum_lv = 0
                 for element in radj[word]:  #word有右邻接的词
-                    sum_lv = sum_rv + wordhyp_bv[element]["lbv"]
+                    sum_lv = sum_lv + wordhyp_bv[element]["lbv"]
                 wordhyp_bv[word]["rbv"] = wordhyp_bv[word]["rbv"]+sum_lv
         
         sum_lv=sum_rv=0
@@ -56,8 +56,8 @@ def cal_IBV(wordhyp, prop_character, size):
 #    print raw_trainning_text
 #    print "ss",raw_xy[1],"ss"
     for word in wordhyp:
-        if len(word)==1: # 单字的内部边界值暂时令其等于其出现的概率
-            wordhyps_ibv[word]=prop_character[word]/size/size
+        if len(word)==1: # 单字的内部边界值暂时令其等于0
+            wordhyps_ibv[word]=0
             continue 
         for i in range(len(word)-1):
             xy = word[i:i+2]
@@ -80,9 +80,9 @@ def cal_IBV(wordhyp, prop_character, size):
 def cal_BV(wordhyp, ladj, radj, iter_times,prop_character,size):
     wordhyps_ebv = cal_EBV(wordhyp,ladj,radj,iter_times)
     wordhyps_ibv = cal_IBV(wordhyp,prop_character,size)
-    i = 15.5
-    cur_time = time.strftime('%m-%d-%H-%M',time.localtime(time.time()))
-    while i<25:
+    i = 1.1
+    cur_time = "last" # time.strftime('%m-%d-%H-%M',time.localtime(time.time()))
+    while i<20:
         wordhyps_wrv = {}#WordRank Value
         for word in wordhyp:
             wordhyps_wrv[word] = wordhyps_ebv[word] * math.pow(i,wordhyps_ibv[word]) #TUDO
